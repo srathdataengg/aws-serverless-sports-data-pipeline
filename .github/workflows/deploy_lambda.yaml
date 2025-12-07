@@ -1,0 +1,33 @@
+name: Deploy Lambda
+
+on:
+  push:
+    paths:
+      - "batch_etl/lambda/**"
+      - "!**/*.zip"
+
+jobs:
+  deploy_lambda:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Create Lambda ZIP
+        run: |
+          cd batch_etl/lambda
+          zip -r lambda_code.zip extract_api.py
+
+      - name: Upload ZIP to Lambda
+        run: |
+          aws lambda update-function-code \
+          --function-name football_ingestion_lambda \
+          --zip-file fileb://batch_etl/lambda/lambda_code.zip
