@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# Mac
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Airflow
+airflow/logs/
+airflow/plugins/__pycache__/
+airflow/dags/__pycache__/
+
+# Lambda build artifacts
+lambda/*.zip
+lambda_layer/*.zip
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Env + credentials (IMPORTANT)
+.env
+*.env
+aws_credentials
